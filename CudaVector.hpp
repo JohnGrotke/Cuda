@@ -31,10 +31,12 @@ public:
 
     void copyToDevice(const T* hostData) {
         cudaMemcpy(data_, hostData, size_ * sizeof(T), cudaMemcpyHostToDevice);
+        cudaStreamSynchronize(stream_);
     }
 
     void copyToHost(T* hostData) const {
         cudaMemcpy(hostData, data_, size_ * sizeof(T), cudaMemcpyDeviceToHost);
+        cudaStreamSynchronize(stream_);
     }
 
     void copyToDeviceAsync(const T* hostData) {
